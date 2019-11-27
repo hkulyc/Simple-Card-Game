@@ -2,6 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * This is the model of CardGame, it can construct the GUI and also
+ * contains the game information itself needs.
+ * 
+ * @author Liu Yuchen
+ * @version 1.2
+ */
 public class CardGame{
     InformationHub informationHub;
     boolean Restart=false;
@@ -18,13 +25,18 @@ public class CardGame{
     JLabel labelMessage,labelMoney;
     JTextField betInputField;
     Button buttonCard1,buttonCard2,buttonCard3,buttonStart,buttonResult;
+    
+    /**
+     * This is the constructor for CardGame class. It initializes all the buttons and panels showed.
+     * Whenever a new CardGame is created, an informationHub for it will also be created.
+     */
     public CardGame(){
         menuBar=new JMenuBar();
         Control=new JMenu("Control");
         Help=new JMenu("Help");
         Exit=new JMenuItem("Exit");
         Rule=new JMenuItem("Rule");
-        author=new JMenuItem("author");
+        author=new JMenuItem("Author");
         mainFrame=new JFrame("Card Game");
         buttonCard1=new Button("Replace Card 1");
         buttonCard2=new Button("Replace Card 2");
@@ -39,16 +51,11 @@ public class CardGame{
         InfoPanel=new JPanel();
         informationHub=new InformationHub(); 
     }
-    void refresh(){
-        mainFrame.getContentPane().removeAll();
-        informationHub=new InformationHub();
-        frameDesign();
-        DealerPanelDesign();
-        PlayerPanelDesign();
-        RpCardBtnPanelDesign();  
-        ButtonPanelDesign();      
-        frameVisible();
-    }
+
+    /**
+     * This method configures the layout of the main panel that hold all the 
+     * subpanels of the frame as well as the frame itself. 
+     */
     void frameDesign(){
         MainPanel=new JPanel();
         MainPanel.setLayout(new GridLayout(5,1));
@@ -56,9 +63,17 @@ public class CardGame{
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(400,700);     
     }
+
+    /**
+     * This method should always be called at last, in order to make the frame visible.
+     */
     void frameVisible(){
         mainFrame.setVisible(true);
     }
+
+    /**
+     * This method configures the panel that holds the cards of the dealer.
+     */
     void DealerPanelDesign(){
         ImageIcon image1=new ImageIcon("Images/card_back.gif");
         label1=new JLabel();
@@ -72,8 +87,13 @@ public class CardGame{
         label3=new JLabel();
         label3.setIcon(image3);
         DealerPanel.add(label3);
+        DealerPanel.setBackground(Color.GREEN.darker());
         MainPanel.add(DealerPanel);
     }
+
+    /**
+     * This method configures the panel that holds the cards of the player.
+     */
     void PlayerPanelDesign(){
         ImageIcon image1=new ImageIcon("Images/card_back.gif");
         label4=new JLabel();
@@ -87,8 +107,14 @@ public class CardGame{
         label6=new JLabel();
         label6.setIcon(image3);
         PlayerPanel.add(label6);
+        PlayerPanel.setBackground(Color.GREEN.darker());
         MainPanel.add(PlayerPanel);
     }
+
+    /**
+     * This method configures the panel that holds the three buttons which 
+     * are used to replace the cards.
+     */
     void RpCardBtnPanelDesign(){
         buttonCard1.addActionListener(new Card1Listener());
         buttonCard2.addActionListener(new Card2Listener());
@@ -96,8 +122,14 @@ public class CardGame{
         RpCardBtnPanel.add(buttonCard1);
         RpCardBtnPanel.add(buttonCard2);
         RpCardBtnPanel.add(buttonCard3);
+        RpCardBtnPanel.setBackground(Color.GREEN.darker());
         MainPanel.add(RpCardBtnPanel);
     }
+
+    /**
+     * This method configures the panel that holds the textField and also
+     * the start and result button.
+     */
     void ButtonPanelDesign(){
         betInputField=new JTextField(10);
         labelBet=new JLabel("Bet: $");
@@ -110,6 +142,10 @@ public class CardGame{
         ButtonPanel.add(buttonResult);
         MainPanel.add(ButtonPanel);
     }
+
+    /**
+     * This method configures the panel the shows information in the form of text.
+     */
     void InfoPanelDesign(){
         labelMessage=new JLabel("Please place your bet! ");
         labelMoney=new JLabel("Amount of money you have: $"+InformationHub.getMoney());
@@ -117,6 +153,10 @@ public class CardGame{
         InfoPanel.add(labelMoney);
         MainPanel.add(InfoPanel);
     }
+
+    /**
+     * This method configures the menu of the GUI.
+     */
     void menuBarConfiguration(){
         Exit.addActionListener(new ExitListener());
         Rule.addActionListener(new RuleListener());
@@ -128,20 +168,27 @@ public class CardGame{
         menuBar.add(Help);
         mainFrame.setJMenuBar(menuBar);
     }
+
     class ExitListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
             System.exit(0);
         }
     }
+
     class RuleListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
             JOptionPane.showMessageDialog(null, "J, Q, K are regarded as special cards.\nRule 1: The one with more special cards wins.\nRule 2: If both have the same number of special cards, add the face values of the other card(s) and take the remainder after dividing the sum by 10. The one with a bigger remainder wins. (Note: Ace = 1).\nRule 3: The dealer wins if both rule 1 and rule 2 cannot distinguish the winner.", "Rule", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
     class authorListener implements ActionListener{
-        @Override
+        
+        /**
+         * This method implement a new feature which is pumping out a webpage of my GitHub homepage.
+         */
+    	@Override
         public void actionPerformed(ActionEvent E) {
             try { 
                 String url = "https://github.com/hkulyc"; 
@@ -157,6 +204,7 @@ public class CardGame{
             } 
         }
     }
+
     class Card1Listener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
@@ -177,6 +225,7 @@ public class CardGame{
             }        
         }
     }
+
     class Card2Listener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -197,6 +246,7 @@ public class CardGame{
             }
         }
     }
+
     class Card3Listener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -217,6 +267,7 @@ public class CardGame{
             }        
         }
     }
+
     class startListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -237,9 +288,13 @@ public class CardGame{
         private boolean betDealing(){
             try{
                 int bet=Integer.parseInt((betInputField.getText()));
-                betInputField.setText("");
                 if(bet<=0){
+                    betInputField.setText("");
                     JOptionPane.showMessageDialog(null, "WARNING: The bet you place must be a positive integer!", "Input Warning", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if(bet>InformationHub.getMoney()){
+                    betInputField.setText("");
+                    JOptionPane.showMessageDialog(null, "WARNING: You only have $"+InformationHub.getMoney()+"!", "Insufficient Balance", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
                     InformationHub.setBet(bet);
@@ -259,11 +314,11 @@ public class CardGame{
             return false;
         }
     }
+
     class resultListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
             if(informationHub.ifStart==true){
-                
                 if(determineOutcome()==true){
                     InformationHub.addMoney();
                     dealerCardsDisplay();
@@ -273,7 +328,10 @@ public class CardGame{
                 }
                 else if(determineOutcome()==false){
                     InformationHub.loseMoney();
-                    dealerCardsDisplay();
+                    dealerCardsDisplay();                   
+                    labelMoney.setText("Amount of money you have: $"+InformationHub.getMoney());
+                    JOptionPane.showMessageDialog(null, "Sorry! The Dealer wins this round!","Apologies", JOptionPane.INFORMATION_MESSAGE);
+                    restart();
                     if(InformationHub.getMoney()<=0){
 	                    labelMessage.setText("You have no more money! ");
 	                    labelMoney.setText("Please start a new game!");
@@ -283,14 +341,9 @@ public class CardGame{
 	                    buttonStart.setBackground(Color.GRAY);
 	                    buttonResult.setBackground(Color.GRAY);
 	                    informationHub.ifStart=false;
-	                    buttonStart.removeActionListener(buttonStart.getActionListeners()[0]);
-	                    JOptionPane.showMessageDialog(null, "Game Over!\nYou have no more money!\nPlease start a new game!","Apologies", JOptionPane.INFORMATION_MESSAGE);
+                        buttonStart.setEnabled(false);
+                        buttonResult.setEnabled(false);	                    JOptionPane.showMessageDialog(null, "Game Over!\nYou have no more money!\nPlease start a new game!","Apologies", JOptionPane.INFORMATION_MESSAGE);
 	                }
-                    else{
-	                    labelMoney.setText("Amount of money you have: $"+InformationHub.getMoney());
-	                    JOptionPane.showMessageDialog(null, "Sorry! The Dealer wins this round!","Apologies", JOptionPane.INFORMATION_MESSAGE);
-	                    restart();
-                    }
                 }        
             }
         }
@@ -300,14 +353,14 @@ public class CardGame{
             int playerSum=0;
             int playerSpecialCards=0;
             for(int i=0;i<3;i++){
-                if(informationHub.dealerCards.get(i)[1]>10){
+                if(informationHub.dealerCards.get(i)[1]>10)
                     dealerSpecialCards++;
+                else
                     dealerSum+=informationHub.dealerCards.get(i)[1];
-                }
-                if(informationHub.playerCards.get(i)[1]>10){
+                if(informationHub.playerCards.get(i)[1]>10)
                     playerSpecialCards++;
-                    playerSum+=informationHub.playerCards.get(i)[1];
-                }
+                else
+                    playerSum+=informationHub.playerCards.get(i)[1];     
             }
             if(dealerSpecialCards>playerSpecialCards)
             return false;
@@ -328,6 +381,7 @@ public class CardGame{
         }
         private void restart(){
             informationHub=new InformationHub();
+            betInputField.setText("");
             buttonCard1.setBackground(Color.GRAY);
             buttonCard2.setBackground(Color.GRAY);
             buttonCard3.setBackground(Color.GRAY);
